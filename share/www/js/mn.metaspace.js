@@ -1,0 +1,6 @@
+(function($){
+
+$.mn.metaspace = {
+};
+
+})(jQuery);

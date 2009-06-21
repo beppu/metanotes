@@ -1,0 +1,8 @@
+{
+   "views" : {
+      "spaces_by_path" : {
+         "map" : "function(doc) {\n  if (doc.type == 'Space') {\n    emit(doc.path, doc);\n  }\n}"
+      }
+   },
+   "language" : "javascript"
+}

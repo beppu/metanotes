@@ -1,0 +1,2 @@
+db_init         initial CouchDB documents
+www             templates for the "default" view

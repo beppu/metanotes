@@ -1,0 +1,7 @@
+#!/bin/sh
+vim -p \
+  lib/MetaNotes.pm lib/MetaNotes/H.pm lib/MetaNotes/Views.pm lib/MetaNotes/Controllers.pm lib/MetaNotes/Models.pm \
+  lib/MetaNotes/Channels.pm \
+  lib/MetaNotes/Aspect/Events.pm lib/MetaNotes/Aspect/Friends.pm \
+  lib/MetaNotes/L10N.pm
+
