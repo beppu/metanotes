@@ -1,5 +1,5 @@
-set :stages, %w(production beta)
-set :default_stage, "beta"
+set :stages, %w(production staging)
+set :default_stage, "staging"
 require 'capistrano/ext/multistage'
 
 set :application, "MetaNotes"
