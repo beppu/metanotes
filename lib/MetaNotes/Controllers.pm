@@ -5,7 +5,6 @@ use warnings;
 use Squatting ':controllers';
 use aliased 'MetaNotes::H';
 use MetaNotes::Models ':all';
-use MetaNotes::Channels ':all';
 
 use Coro;
 use AnyEvent;
