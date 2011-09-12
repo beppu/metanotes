@@ -6,13 +6,6 @@ use base 'Squatting::H';
 use Clone;
 use Scalar::Util 'blessed';
 
-# $object->may($user, $do_this)?
-sub may {
-  my ($self, $user, $method) = @_;
-  # authorization is defined using
-  # allow and disallow lists for methods;
-}
-
 sub TO_JSON {
   my $self = shift;
   my $copy = {};
