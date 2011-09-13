@@ -1,66 +1,19 @@
 package MetaNotes::Controllers;
-use strict;
-use warnings;
+use common::sense;
 
-use Squatting ':controllers';
+use Squatting;
 use aliased 'MetaNotes::H';
-use MetaNotes::Models ':all';
-
-use Coro;
-use AnyEvent;
-use Coro::AnyEvent;
-use File::Slurp;
 
 use Data::Dump 'pp';
 
 our @C = (
 
   C(
-    Static => [ '/((css|js|images|themes)/.*)', '/(favicon.ico)' ],
-
-    mime  => {
-      css => 'text/css',
-      js  => 'text/javascript',
-      jpg => 'image/jpeg',
-      gif => 'image/gif',
-      png => 'image/png',
-    },
-
-    get => sub {
-      my ($self, $path) = @_;
-      no warnings 'once';
-      if ($path =~ qr{\.\.}) {
-        $self->status = 403;
-        return;
-      }
-      my ($type) = ($path =~ /\.(\w+)$/);
-      $self->headers->{'Content-Type'} = $self->{mime}->{$type} || 'text/plain';
-      my $file = "$MetaNotes::CONFIG{root}/$path";
-      if (-e $file) {
-        return scalar read_file($file); 
-      } else {
-        $self->status = 404;
-        return;
-      }
-    }
-  ),
-
-  C(
     Auth => [ '/@auth' ],
-
     get => sub {
     },
-
     post => sub {
     },
-  ),
-
-  C(
-    Event => [ '/@event' ],
-
-    get => sub {
-      my ($self) = @_;
-    }
   ),
 
   C(
@@ -75,22 +28,32 @@ our @C = (
 
   C(
     Home => ['/'],
-
     get => sub {
       my ($self) = @_;
       my $v = $self->v;
-      $v->{space} = $Space->find('/');
+      #$v->{space} = $Space->find('/');
+      $v->{space} = { truth => 'optimized', secret => 'weapon', amused => 1 };
       $self->render('space');
     },
   ),
 
   C(
-    Object => [ '/@object/(\w+)/(.*)' ],
+    Space => [ '/(.*)' ],
+    get => sub {
+      my ($self, $path) = @_;
+      my $v = $self->v;
+      #$v->{space} = $Space->find($path);
+      $self->render('space');
+    }
+  ),
+
+  C(
+    Object => [ '/api/v5/object/(\w+)/(.*)' ],
 
     get => sub {
       my ($self, $type, $id) = @_;
       my $v = $self->v;
-      $v->{space} = $Object{$type}->find($id);
+      #$v->{space} = $Object{$type}->find($id);
       $self->render('space');
     },
 
@@ -100,26 +63,15 @@ our @C = (
       my $input  = $self->input;
       my %params = %{$self->input};
       delete $params{method};
-      my $object = $Object{$type}->find($id);
-      my $method = $input->{method};
-      if ($u->may($method, $object)) {
-        return $object->$method(\%params);
-      } else {
-        return '{"success":false}';
-      }
+      #my $object = $Object{$type}->find($id);
+      #my $method = $input->{method};
+      #if ($u->may($method, $object)) {
+      #  return $object->$method(\%params);
+      #} else {
+      #  return '{"success":false}';
+      #}
     },
   ),
-
-  C(
-    Space => [ '/(.*)' ],
-    get => sub {
-      my ($self, $path) = @_;
-      my $v = $self->v;
-      $v->{space} = $Space->find($path);
-      $self->render('space');
-    }
-  ),
-
 
 );
 

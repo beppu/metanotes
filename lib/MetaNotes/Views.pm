@@ -1,31 +1,22 @@
 package MetaNotes::Views;
-use strict;
-use warnings;
-no  warnings 'once';
+use common::sense;
+
 use aliased 'XML::Feed';
 use aliased 'XML::Feed::Entry';
 
-use Squatting ':views';
-use Encode;
 use Data::Dump 'pp';
+use Text::Xslate;
 
-use Tenjin;
-use base 'Tenjin::Context';
-eval $Tenjin::Context::defun;
-*escape = sub {
-  my ($s) = @_;
-  $s = encode('utf8', $s);
-  $s =~ s/[&<>"]/$Tenjin::Helper::Html::_escape_table{$&}/ge if ($s);
-  return $s;
-};
-$Tenjin::CONTEXT_CLASS = 'MetaNotes::Views';
+our $tx;
+our $root;
 
-our $tenjin;
 sub init {
-  $tenjin = Tenjin::Engine->new({
-    path    => [ $MetaNotes::CONFIG{root} ],
-    postfix => '.html',
-  });
+  $tx = Text::Xslate->new(
+    function => {
+      pp => \&pp
+    }
+  );
+  $root = $MetaNotes::CONFIG{root};
 }
 
 our %V;
@@ -37,16 +28,17 @@ our @V = (
     layout => sub {
       my ($self, $v, $content) = @_;
       $v->{content} = $content;
-      $tenjin->render(":layout", $v);
+      $tx->render("$root/layout.html", $v);
     },
 
     _ => sub {
       my ($self, $v) = @_;
       $v->{self} = $self;
-      $tenjin->render(":$self->{template}", $v);
+      $tx->render("$root/$self->{template}.html", $v);
     }
   ),
 
+  # TODO - REDO
   V(
     'atom',
     home => sub {

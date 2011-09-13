@@ -1,19 +1,16 @@
 package MetaNotes;
-use v5.008;
-use strict;
-use warnings;
-use base 'Squatting';
-use aliased 'MetaNotes::H';
+use v5.010;
+use common::sense;
 
-use MetaNotes::Models ':all';
+use Squatting;
 use MetaNotes::Controllers;
 use MetaNotes::Views;
+use aliased 'MetaNotes::H';
 
 use JSON;
-use Data::Dump  'pp';
-use File::Slurp 'slurp';
+use Data::Dump 'pp';
 
-our $VERSION = "4.000";
+our $VERSION = "5.000";
 
 # app default configuration
 # (I really prefer flat configuration files.)
@@ -22,13 +19,6 @@ our %CONFIG  = (
   salt => 'tasty',
   root => 'share/www',
   mode => 'development',
-);
-
-# these files will override the default configuration
-our @CONFIG_FILES = qw(
-  /etc/metanotes/metanotes.json
-  etc/metanotes.json
-  metanotes.json
 );
 
 # CSS profiles for development and production environments
@@ -62,25 +52,8 @@ our %JS = (
 # this is called once during app start-up
 sub init {
   my ($class) = @_;
-  MetaNotes::Models::init();
   MetaNotes::Views::init();
-
-  # load config file(s)
-  for my $file (grep { -e $_ } @CONFIG_FILES) {
-    my $metanotes_config = decode_json(slurp($file));
-    for (keys %$metanotes_config) {
-      $CONFIG{$_} = $metanotes_config->{$_};
-    }
-  }
-
   $class->next::method
-}
-
-# this is called during the final phase of app start-up to start up
-# the Continuity server
-sub continue {
-  my ($class, @args) = @_;
-  $class->next::method(@args, staticp => sub { 0 });
 }
 
 # this method wraps every http request
@@ -88,9 +61,7 @@ sub continue {
 sub service {
   my ($class, $c, @args) = @_;
 
-  # be able to treat "input" and "state" like objects
-  #         treating "v"                 as an object breaks Tenjin
-  #                                      (which is a damned shame)
+  # treat "input" and "state" as objects
   H->bless($c->{$_}) for qw(input state);
 
   my $v = $c->v;
@@ -102,13 +73,6 @@ sub service {
   $v->{js}  = $JS{$CONFIG{mode}};
 
   $class->next::method($c, @args);
-}
-
-# this is invoked when running `meta install` from the command line
-sub install {
-  my ($class, @args) = @_;
-  require 'MetaNotes::Installer';
-  MetaNotes::Installer->run(@args);
 }
 
 1;
