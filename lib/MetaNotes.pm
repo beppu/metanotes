@@ -1,5 +1,5 @@
 package MetaNotes;
-use v5.010;
+use v5.008;
 use common::sense;
 
 use Squatting;
