@@ -13,8 +13,19 @@
     : }
   </head>
   <body>
+    <!-- 
+         I like having a factory to clone dom elements from, 
+         but should my libraries (like $.mn.panel) rely on it?
+    -->
+    <div id="factory" style="display: none;">
+      <ul>
+        <li class="panel_icon">
+          <img src="/favicon.ico" alt="" width="16" height="16"/>
+        </li>
+      </ul>
+    </div>
+    <div id="panels"></div>
     <menu id="main" type="toolbar">
-      <li><a href="http://mobile.twitter.com/"><img border="0" src="http://twitter.com/phoenix/favicon.ico"></img></a></li>
     </menu>
     </div>
     <div id="content">

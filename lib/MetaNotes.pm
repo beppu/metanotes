@@ -35,8 +35,7 @@ our %CSS = (
 # JavaScript profiles for development and production environments
 our %JS = (
   development => [
-    '/js/jquery-1.3.2.js',
-    '/js/jquery-ui-1.7.1.custom.min.js',
+    '/js/jquery-1.6.4.js',
     '/js/mn.js',
     '/js/mn.metaspace.js',
     '/js/mn.panel.js',

@@ -14,7 +14,7 @@ $.mn.panels = {
       this.seen[name] = this.list.length - 1;
       // dom
       var icon = $('div#factory li.panel_icon').clone();
-      $('img', icon).attr({ src: object.icon, title: object.title });
+      icon.find('img').attr({ src: object.icon, title: object.title });
       this.ul.append(icon);
       icon.click(function(ev){ 
         $('li', this.ul).removeClass('selected');
@@ -92,7 +92,7 @@ $.mn.IframePanel = function(options) {
   $.extend(this, options);
   this.sel = '#' + options.id;
   if ($(this.sel).length == 0) {
-    var panel = $('div#factory div.panel.iframe').clone();
+    var panel = $('<div class="panel"><iframe frameborder="0"></iframe></div>');
     panel.attr({ id: this.id });
     this.css.display = 'none';
     panel.css(this.css);
@@ -116,16 +116,16 @@ $.mn.IframePanel.prototype = {
   show: function() {
     var hi = $(window).height();
     if (this.virgin) {
-      $('iframe', this.sel).attr({ width: this.width, src: this.url });
+      $(this.sel).find('iframe').attr({ width: this.width, src: this.url });
       this.virgin = false;
     }
-    $('iframe', this.sel).attr({ height: (hi - 27) + 'px' });
+    $(this.sel).find('iframe').attr({ height: (hi - 27) + 'px' });
     $(this.sel).css({ height: (hi - 27) + 'px' }).show('slow');
   },
 
   resize: function() {
     if ($(this.sel).css('display') != 'none') {
-      $('iframe', this.sel).attr('height', ($(window).height() - 27) + 'px');
+      $(this.sel).find('iframe').attr('height', ($(window).height() - 27) + 'px');
       $(this.sel).css({ height: ($(window).height() - 27) + 'px' });
     }
   }

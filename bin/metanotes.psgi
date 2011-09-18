@@ -8,7 +8,7 @@ MetaNotes->init;
 builder {
 
   enable "Plack::Middleware::Static",
-    path => qr{^/(images|js|css)/}, root => 'share/www/';
+    path => qr{^/(themes|images|js|css)/}, root => 'share/www/';
 
   my $app = sub {
     my $env = shift;

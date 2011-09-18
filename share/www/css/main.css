@@ -31,13 +31,25 @@ menu#main {
 }
 
 menu#main li {
-  display: inline;
+  display    : inline;
 }
 
 menu#main li img {
-  margin: 3px 0 0 0;
+  margin     : 3px 2px 0 0;
+}
+
+div.panel {
+  position   : fixed;
+  top        : 24px;
+  right      : 0px;
+  padding    : 4px;
+  border     : 1px solid #888;
+  background : #fff;
+  overflow-x : hidden;
+  overflow-y : auto;
+  z-index    : 5000;
 }
 
 div#content {
-  margin: 24px 0 0 0;
+  margin     : 24px 0 0 0;
 }

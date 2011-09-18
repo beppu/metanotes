@@ -32,7 +32,7 @@ our @C = (
       my ($self) = @_;
       my $v = $self->v;
       #$v->{space} = $Space->find('/');
-      $v->{space} = { truth => 'optimized', secret => 'weapon', amused => 1 };
+      $v->{space} = { test => 1, panel => [ 'reddit' ] };
       $self->render('space');
     },
   ),
