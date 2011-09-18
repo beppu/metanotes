@@ -12,6 +12,7 @@ requires       'Math::BitInt::GMP';
 requires       'Net::OpenID::Consumer';
 requires       'Net::Twitter::Lite';
 requires       'LWPx::ParanoidAgent';
+requires       'LWPx::Protocol::https';
 requires       'Doorman';
 requires       'Starman';
 requires       'AnyEvent::CouchDB';
