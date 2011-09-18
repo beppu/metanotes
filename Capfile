@@ -12,7 +12,9 @@ load 'config/deploy' # remove this line to skip loading any of the default tasks
 namespace :deploy do
 
   # if data directories need to be symlinked in, this would be the place to do it
-  task :finalize_update do ; end
+  task :finalize_update do
+    run "cp /u/beta/MetaNotes/CONFIG.js #{latest_release}"
+  end
 
   # should this restart the appN or feN or both?
   task :restart do ; end
