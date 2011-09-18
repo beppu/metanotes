@@ -8,7 +8,9 @@ use MetaNotes::Views;
 use aliased 'MetaNotes::H';
 
 use JSON;
+use IO::All;
 use Data::Dump 'pp';
+use Try::Tiny;
 
 our $VERSION = "5.000";
 
@@ -49,6 +51,10 @@ our %JS = (
 # this is called once during app start-up
 sub init {
   my ($class) = @_;
+  try {
+    my $config = decode_json(io('CONFIG.js')->all);
+    %CONFIG = (%CONFIG, %$config);
+  };
   MetaNotes::Views::init();
   $class->next::method
 }
@@ -62,12 +68,12 @@ sub service {
   H->bless($c->{$_}) for qw(input state);
 
   my $v = $c->v;
+  $v->{css}        = $CSS{$CONFIG{mode}};
+  $v->{js}         = $JS{$CONFIG{mode}};
   $v->{title}      = ('MetaNotes');
   $v->{feed_title} = ('MetaNotes');
   $v->{feed_url}   = ('/feed.xml');
-
-  $v->{css} = $CSS{$CONFIG{mode}};
-  $v->{js}  = $JS{$CONFIG{mode}};
+  $v->{doorman}    = $c->env->{'doorman.users.twitter'};
 
   $class->next::method($c, @args);
 }

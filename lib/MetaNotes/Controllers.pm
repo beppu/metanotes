@@ -1,7 +1,6 @@
 package MetaNotes::Controllers;
 use common::sense;
 
-use Squatting;
 use aliased 'MetaNotes::H';
 
 use Data::Dump 'pp';
@@ -9,10 +8,14 @@ use Data::Dump 'pp';
 our @C = (
 
   C(
-    Auth => [ '/@auth' ],
+    Auth => [ '/users/sign_in', '/users/sign_out', '/users/twitter_verified' ],
     get => sub {
+      my ($self) = @_;
+      $self->redirect(R('Home'));
     },
     post => sub {
+      my ($self) = @_;
+      $self->redirect(R('Home'));
     },
   ),
 
@@ -31,8 +34,15 @@ our @C = (
     get => sub {
       my ($self) = @_;
       my $v = $self->v;
+      my $doorman = $v->{doorman};
+
+      warn $doorman->sign_in_path;
+      warn $doorman->sign_out_path;
+      warn $doorman->twitter_screen_name;
+      warn pp(\%MetaNotes::CONFIG);
+
       #$v->{space} = $Space->find('/');
-      $v->{space} = { test => 1, panel => [ 'reddit' ] };
+      $v->{space} = { test => 1, panel => [ 'reddit' ], auth => 'twitter' };
       $self->render('space');
     },
   ),
