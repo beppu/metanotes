@@ -37,8 +37,6 @@ our %JS = (
   development => [
     '/js/jquery-1.3.2.js',
     '/js/jquery-ui-1.7.1.custom.min.js',
-    '/js/jquery.ev.js',
-    '/js/modifiable.js',
     '/js/mn.js',
     '/js/mn.metaspace.js',
     '/js/mn.panel.js',
