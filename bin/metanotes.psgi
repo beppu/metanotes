@@ -5,11 +5,13 @@ use Plack::Builder;
 use MetaNotes 'On::PSGI';
 MetaNotes->init;
 
+my $root_url = $MetaNotes::CONFIG{root_url} // 'http://localhost:5000';
+
 builder {
 
   enable 'Session::Cookie';
   enable 'DoormanTwitter',
-    root_url        => 'http://localhost:5000',
+    root_url        => $root_url,
     scope           => 'users',
     consumer_key    => $MetaNotes::CONFIG{consumer_key},
     consumer_secret => $MetaNotes::CONFIG{consumer_secret};
