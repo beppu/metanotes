@@ -8,7 +8,7 @@ Dir['vendor/gems/*/recipes/*.rb','vendor/plugins/*/recipes/*.rb'].each { |plugin
 load 'config/deploy' # remove this line to skip loading any of the default tasks
 
 # shell commands to do a minimal perlbrew setup
-preamble = ". ~/.perlbrew/init && PATH=$PERLBREW_PATH:$PATH"
+preamble = ". ~/.perlbrew/init && PATH=$PERLBREW_PATH:$PATH && export PERL5LIB=lib"
 
 # Custom Tasks
 #
@@ -24,7 +24,12 @@ namespace :deploy do
     run "kill $(cat #{deploy_to}/metanotes.pid)"
   end
   task :start do
-    run "#{preamble} && bin/with-pid-file #{deploy_to}/metanotes.pid fliggy --listen :5000 bin/metanotes.psgi"
+    run <<-CMD
+      #{preamble} && 
+      cd #{latest_release} && 
+      bin/with-pid-file #{deploy_to}/metanotes.pid \
+        fliggy --listen :5000 bin/metanotes.psgi > /dev/null 2>&1 &
+    CMD
   end
   task :restart do
     stop
