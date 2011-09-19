@@ -71,7 +71,7 @@ $.mn.widget = {
 
   _delete: function(){
   },
-  delete: function() {
+  'delete': function() {
     var self = this;
     return $.post(
       '/@object/'+this.type+'/'+this._id,
