@@ -11,15 +11,23 @@ load 'config/deploy' # remove this line to skip loading any of the default tasks
 #
 namespace :deploy do
 
-  # if data directories need to be symlinked in, this would be the place to do it
+  # tweak tweak tweak
   task :finalize_update do
     run "cp /u/beta/MetaNotes/CONFIG.js #{latest_release}"
   end
 
-  # should this restart the appN or feN or both?
-  task :restart do ; end
-  task :stop do ; end
-  task :start do ; end
+  # start and stop the web server
+  task :stop do
+    run "kill #{deploy_to}/metanotes.pid"
+  end
+  task :start do
+    run "cd #{latest_release}"
+    run "bin/with-pid-file #{deploy_to}/metanotes.pid fliggy --listen :5000 bin/metanotes.psgi"
+  end
+  task :restart do
+    stop
+    start
+  end
 
   # this would be a good place to implement sanity checks
   task :check do ; end
