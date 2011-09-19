@@ -1,0 +1,12 @@
+#!/bin/sh
+if [ $# -lt 2 ] ; then
+  echo "Usage: with-pid-file <PID_FILE> <COMMAND>"
+else
+  pid_file=$1
+  shift
+  echo $$ > $pid_file || {
+    echo "Could not write pid to $pid_file."
+    exit 1
+  }
+  exec $@
+fi
