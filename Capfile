@@ -21,8 +21,7 @@ namespace :deploy do
     run "kill $(cat #{deploy_to}/metanotes.pid)"
   end
   task :start do
-    run "cd #{latest_release}"
-    run "bin/with-pid-file #{deploy_to}/metanotes.pid fliggy --listen :5000 bin/metanotes.psgi"
+    run "cd #{latest_release} && bin/with-pid-file #{deploy_to}/metanotes.pid fliggy --listen :5000 bin/metanotes.psgi"
   end
   task :restart do
     stop
