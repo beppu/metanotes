@@ -41,7 +41,7 @@ our @C = (
       warn pp(\%MetaNotes::CONFIG);
 
       #$v->{space} = $Space->find('/');
-      $v->{space} = { test => 1, panel => [ 'reddit' ], auth => 'twitter', env => $self->env };
+      $v->{space} = { test => 1, panel => [ 'reddit' ], auth => 'twitter', foo => 'bar' };
       $self->render('space');
     },
   ),
