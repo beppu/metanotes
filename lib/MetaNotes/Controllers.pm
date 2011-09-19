@@ -21,7 +21,6 @@ our @C = (
 
   C(
     MetaSpace => [ '/@metaspace' ],
-
     get => sub {
       my ($self) = @_;
       $self->v->{metaspace} = metaspace($self->state->{u});
@@ -42,7 +41,7 @@ our @C = (
       warn pp(\%MetaNotes::CONFIG);
 
       #$v->{space} = $Space->find('/');
-      $v->{space} = { test => 1, panel => [ 'reddit' ], auth => 'twitter' };
+      $v->{space} = { test => 1, panel => [ 'reddit' ], auth => 'twitter', env => $self->env };
       $self->render('space');
     },
   ),
