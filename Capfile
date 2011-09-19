@@ -18,7 +18,7 @@ namespace :deploy do
 
   # start and stop the web server
   task :stop do
-    run "kill #{deploy_to}/metanotes.pid"
+    run "kill $(cat #{deploy_to}/metanotes.pid)"
   end
   task :start do
     run "cd #{latest_release}"
