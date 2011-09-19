@@ -99,9 +99,9 @@ $.mn.Note = function(opts){
   } else {
     note = $('#factory div.widget.note').clone();
     note.css({
-      width: this.width+'px',
-      height: this.height+'px',
-      background: this.background
+      width      : this.width+'px',
+      height     : this.height+'px',
+      background : this.background
     });
     $('div.space').append(note);
   }
