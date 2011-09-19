@@ -21,7 +21,7 @@ namespace :deploy do
     run "kill $(cat #{deploy_to}/metanotes.pid)"
   end
   task :start do
-    run "cd #{latest_release} && bin/with-pid-file #{deploy_to}/metanotes.pid fliggy --listen :5000 bin/metanotes.psgi"
+    run "source ~/perl5/perlbrew/etc/bashrc && cd #{latest_release} && bin/with-pid-file #{deploy_to}/metanotes.pid fliggy --listen :5000 bin/metanotes.psgi"
   end
   task :restart do
     stop
@@ -29,6 +29,8 @@ namespace :deploy do
   end
 
   # this would be a good place to implement sanity checks
-  task :check do ; end
+  task :check do
+    run "source ~/perl5/perlbrew/etc/bashrc && env"
+  end
 
 end
