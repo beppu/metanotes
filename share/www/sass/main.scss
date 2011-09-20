@@ -1,3 +1,12 @@
+@mixin rounded-tr-bl($radius: 8px) {
+  -webkit-border-top-right-radius: $radius;
+  -webkit-border-bottom-left-radius: $radius;
+  -moz-border-radius-topright: $radius;
+  -moz-border-radius-bottomleft: $radius;
+  border-top-right-radius: $radius;
+  border-bottom-left-radius: $radius;
+}
+
 body {
   background-color: #eaeaea;
   color: #000;
@@ -57,4 +66,6 @@ div#content {
 
 div.widget.note {
   border : 1px solid black;
+  @include rounded-tr-bl(8px);
 }
+
