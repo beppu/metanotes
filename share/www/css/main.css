@@ -18,7 +18,8 @@ menu#main {
   text-align: right;
   background: #000;
   opacity: 0.75;
-  color: #fff; }
+  color: #fff;
+  z-index: 5001; }
 
 menu#main li {
   display: inline; }
@@ -39,3 +40,6 @@ div.panel {
 
 div#content {
   margin: 24px 0 0 0; }
+
+div.widget.note {
+  border: 1px solid black; }

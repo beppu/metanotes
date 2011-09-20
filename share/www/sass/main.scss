@@ -28,6 +28,7 @@ menu#main {
   background : #000;
   opacity    : 0.75;
   color      : #fff;
+  z-index    : 5001;
 }
 
 menu#main li {
@@ -52,4 +53,8 @@ div.panel {
 
 div#content {
   margin     : 24px 0 0 0;
+}
+
+div.widget.note {
+  border : 1px solid black;
 }

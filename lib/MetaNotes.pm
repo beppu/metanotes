@@ -38,6 +38,8 @@ our %CSS = (
 our %JS = (
   development => [
     '/js/jquery-1.6.4.js',
+    '/js/jquery-ui-1.8.16.custom.min.js',
+    '/js/jquery.jsPlumb-1.3.3-all-min.js',
     '/js/mn.js',
     '/js/mn.metaspace.js',
     '/js/mn.panel.js',

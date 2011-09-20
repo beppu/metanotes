@@ -1,6 +1,19 @@
 (function($){
 
-$.mn = {};
+$.mn = {
+  _id : 1,
+  id  : function() {
+    return this._id++;
+  },
+
+  _z : 100,
+  z  : function(reset) {
+    if (reset) {
+    } else {
+      return this._z++;
+    }
+  }
+};
 
 // All Objects in the Page
 //    key   : CouchDB document id
@@ -12,7 +25,7 @@ $.mn.widget = {
 
   x : 0,
   y : 0,
-  z : 0x100,
+  z : 100,
 
   width  : 1,
   height : 1,
@@ -26,25 +39,24 @@ $.mn.widget = {
 
   _raise: function(z) {
     if (z) {
+      this.z = z;
     } else {
+      var nextZ = $.mn.z();
+      if (nextZ > 2000) {
+        // TODO - pagewide zIndex reset?
+      }
+      this.z = nextZ;
     }
+    $(this.id).css({ zIndex: nextZ });
     return this;
   },
   raise: function(z) {
   },
 
-  _lower: function(z) {
-    if (z) {
-    } else {
-    }
-    return this;
-  },
-  lower: function(z) {
-  },
-
   _move: function(x, y) {
     this.x = x;
     this.y = y;
+    $(this.id).css({ top: y+24 +'px', left: x });
   },
   move: function(x, y) {
     var self = this;
@@ -95,22 +107,30 @@ $.mn.Note = function(opts){
   if (this.el) {
     note = $(this.el);
     this._id = note[0].id;
+    this.id  = '#' + this._id;
     delete this.el;
   } else {
     note = $('#factory div.widget.note').clone();
+    this._id = 'Note-' + $.mn.id();
+    this.id  = '#' + this._id;
+    note[0].id = this._id;
     note.css({
       width      : this.width+'px',
       height     : this.height+'px',
       background : this.background
     });
     $('div.space').append(note);
+    this._raise();
+    this._move(this.x, this.y);
   }
   note.draggable().resizable();
-  $.mn.objects[this._id || 'Note-3'] = this;
+  $.mn.objects[this._id] = this;
+  return this;
 };
 $.mn.Note.prototype = $.extend({}, $.mn.widget, {
-  width      : 200,
-  height     : 200,
+  type       : 'Note',
+  width      : 198,
+  height     : 198,
   background : '#fc4',
   opacity    : 1.00 
 });
@@ -132,6 +152,7 @@ $.mn.Image = function(opts){
   $.mn.objects[this._id || 'Image-4'] = this;
 };
 $.mn.Image.prototype = $.extend({}, $.mn.widget, {
+  type : 'Image'
 });
 
 // new jQuery function(s)

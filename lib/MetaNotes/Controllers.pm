@@ -45,7 +45,12 @@ our @C = (
       my ($self, $path) = @_;
       my $v = $self->v;
       #$v->{space} = $Space->find($path);
-      $self->render('space');
+      if (1) {
+        $self->render('space');
+      } else {
+        $self->status = 404;
+        $self->render('not_found');
+      }
     }
   ),
 

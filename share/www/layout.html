@@ -14,20 +14,6 @@
   </head>
   <body>
 
-    <!-- 
-         I like having a factory to clone dom elements from, 
-         but should my libraries (like $.mn.panel) rely on it?
-    -->
-    <div id="factory" style="display: none;">
-      <ul>
-        <li class="panel_icon">
-          <img src="/favicon.ico" alt="" width="16" height="16"/>
-        </li>
-      </ul>
-    </div>
-
-    <div id="panels"></div>
-
     <menu id="main" type="toolbar">
       : if $doorman.is_sign_in {
       <li><a href="<: $doorman.sign_out_path :>">(<: $doorman.twitter_screen_name :>) Sign Out</a></li>
@@ -36,6 +22,7 @@
       <li><a href="<: $doorman.sign_in_path :>">Sign In</a></li>
       : }
     </menu>
+    <div id="panels"></div>
 
     <div id="content">
       <: $content | raw :>
