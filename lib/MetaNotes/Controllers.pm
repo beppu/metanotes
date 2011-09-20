@@ -7,6 +7,7 @@ use Data::Dump 'pp';
 
 our @C = (
 
+  ## Authentication
   C(
     Auth => [ '/users/sign_in', '/users/sign_out', '/users/twitter_verified' ],
     get => sub {
@@ -19,15 +20,7 @@ our @C = (
     },
   ),
 
-  C(
-    MetaSpace => [ '/@metaspace' ],
-    get => sub {
-      my ($self) = @_;
-      $self->v->{metaspace} = metaspace($self->state->{u});
-      $self->render('_metaspace');
-    }
-  ),
-
+  ## Regular Pages
   C(
     Home => ['/'],
     get => sub {
@@ -35,12 +28,12 @@ our @C = (
       my $v = $self->v;
       my $doorman = $v->{doorman};
 
-      warn $doorman->sign_in_path;
-      warn $doorman->sign_out_path;
-      warn $doorman->twitter_screen_name;
-      warn pp(\%MetaNotes::CONFIG);
-
+      #warn $doorman->sign_in_path;
+      #warn $doorman->sign_out_path;
+      #warn $doorman->twitter_screen_name;
+      #warn pp(\%MetaNotes::CONFIG);
       #$v->{space} = $Space->find('/');
+
       $v->{space} = { test => 1, panel => [ 'reddit' ], auth => 'twitter', foo => 'bar' };
       $self->render('space');
     },
@@ -57,7 +50,28 @@ our @C = (
   ),
 
   C(
-    Object => [ '/api/v5/object/(\w+)/(.*)' ],
+    Object => [ '/(.*?)___(.*)' ],
+    get => sub {
+      my ($self, $space, $id) = @_;
+      # We technically don't need $space for retrieval purposes,
+      # but it might be good for SEO?
+      my $v = $self->v;
+    }
+  ),
+
+  ## Not a page of its own, but pretty big for a "partial".
+  C(
+    MetaSpace => [ '/@metaspace' ],
+    get => sub {
+      my ($self) = @_;
+      $self->v->{metaspace} = metaspace($self->state->{u});
+      $self->render('_metaspace');
+    }
+  ),
+
+  ## API v5
+  C(
+    APIObject => [ '/api/v5/object/(\w+)/(.*)' ],
 
     get => sub {
       my ($self, $type, $id) = @_;
