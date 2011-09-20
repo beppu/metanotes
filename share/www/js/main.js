@@ -75,4 +75,5 @@ jsPlumb.connect({ source: n2._id, target: n3._id }, aConnection);
 $('div.space div.widget').live('drag',   function(){ jsPlumb.repaintEverything() });
 $('div.space div.widget').live('resize', function(){ jsPlumb.repaintEverything() });
 
+
 });
