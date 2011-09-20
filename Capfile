@@ -42,3 +42,5 @@ namespace :deploy do
   end
 
 end
+
+# vim:ft=ruby
