@@ -26,7 +26,7 @@ our %CONFIG  = (
 # CSS profiles for development and production environments
 our %CSS = (
   development => [
-    '/themes/ui-darkness/jquery-ui-1.7.1.custom.css',
+    '/css/ui-darkness/jquery-ui-1.8.16.custom.css',
     '/css/main.css',
   ],
   production => [
