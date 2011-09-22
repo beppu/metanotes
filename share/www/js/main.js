@@ -40,15 +40,15 @@ var n2 = new $.mn.Note({ x: 8*60, y: 8*8 });
 var n3 = new $.mn.Note({ x: 8*60, y: 8*60 });
 
 var anchors = [[0.2, 0, 0, -1], [1, 0.2, 1, 0], [0.8, 1, 0, 1], [0, 0.8, -1, 0] ],
-exampleColor = '#00f',
+exampleColor = '#9a9',
 exampleDropOptions = {
   tolerance:'touch',
   hoverClass:'dropHover',
   activeClass:'dragActive'
 }, 
 connectorStyle = {
-  gradient:{stops:[[0, exampleColor], [0.5, '#09098e'], [1, exampleColor]]},
-  lineWidth:5,
+  gradient:{stops:[[0, exampleColor], [0.5, '#323'], [1, exampleColor]]},
+  lineWidth:1,
   strokeStyle:exampleColor
 },
 endpoint = ["Rectangle", {width:25, height:21} ],
@@ -74,6 +74,5 @@ jsPlumb.connect({ source: n2._id, target: n3._id }, aConnection);
 
 $('div.space div.widget').live('drag',   function(){ jsPlumb.repaintEverything() });
 $('div.space div.widget').live('resize', function(){ jsPlumb.repaintEverything() });
-
 
 });
