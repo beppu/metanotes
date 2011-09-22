@@ -56,9 +56,9 @@ document.onselectstart = function () { return false; };
 jsPlumb.DefaultDragOptions = { cursor: "pointer", zIndex:2000 };
 jsPlumb.setMouseEventsEnabled(true);
 
-var n1 = new $.mn.Note({ x: 8*10, y: 8*8 });
-var n2 = new $.mn.Note({ x: 8*60, y: 8*8 });
-var n3 = new $.mn.Note({ x: 8*60, y: 8*60 });
+var n1 = new $.mn.Note({ x: 98,   y: 472 });
+var n2 = new $.mn.Note({ x: 1019, y: 23  });
+var n3 = new $.mn.Note({ x: 369,  y: 533 });
 
 var anchors = [[0.2, 0, 0, -1], [1, 0.2, 1, 0], [0.8, 1, 0, 1], [0, 0.8, -1, 0] ],
 exampleColor = '#9a9',
