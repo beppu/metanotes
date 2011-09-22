@@ -1,4 +1,4 @@
-package MetaNotes::Object::Page;
+package MetaNotes::Object::Space;
 use common::sense;
 use Moo;
 with 'MetaNotes::Role::CouchObject';
@@ -21,14 +21,14 @@ __END__
 
 =head1 NAME
 
-MetaNotes::Object::Page - formerly known as Space; where notes go
+MetaNotes::Object::Space - a place where notes go
 
 =head1 SYNOPSIS
 
   use MetaNotes::Models 'all';
-  my $page = $Page->find('/');
-  $page->title('new title');
-  $page->update();
+  my $space = $Space->find('/Music/Perfume');
+  $space->title('三人あわせてパーフュームです');
+  $space->update();
 
 =head1 DESCRIPTION
 
