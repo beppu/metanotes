@@ -2,6 +2,26 @@ package MetaNotes::Role::Widget;
 use common::sense;
 use Moo::Role;
 
+# the user who instantiated this widget
+has creator => (
+  is => 'ro'
+);
+
+# those who can see
+has viewers => (
+  is => 'rw'
+);
+
+# those who can edit
+has editors => (
+  is => 'rw'
+);
+
+has password => (
+  is => 'rw'
+);
+
+# outgoing connections
 has connections => (
   is => 'rw'
 );

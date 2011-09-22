@@ -4,10 +4,6 @@ use Moo;
 with 'MetaNotes::Role::CouchObject';
 with 'MetaNotes::Role::Widget';
 
-has owner => (
-  is => 'ro'
-);
-
 # textile, markdown, bbcode, whatever
 has format => (
   is => 'rw'
