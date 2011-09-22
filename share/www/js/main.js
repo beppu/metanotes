@@ -21,11 +21,21 @@ if ($.mn.channels) {
 */
 
 $.mn.panels.ul = $('menu#main');
+/*
 $.mn.panels.add('reddit', new $.mn.IframePanel({
   id    : 'reddit_panel',
   icon  : 'http://www.reddit.com/static/favicon.ico',
   title : 'Reddit Panel',
   url   : 'http://m.reddit.com/',
+  css   : { width: '420px' },
+  width : '420px'
+}));
+*/
+$.mn.panels.add('help', new $.mn.IframePanel({
+  id    : 'help_panel',
+  icon  : '/images/question.ico',
+  title : 'Help Panel',
+  url   : '/@help',
   css   : { width: '420px' },
   width : '420px'
 }));

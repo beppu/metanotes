@@ -1,26 +1,11 @@
 package MetaNotes::Controllers;
 use common::sense;
-
 use aliased 'MetaNotes::H';
-
 use Data::Dump 'pp';
 
 our @C = (
 
-  ## Authentication
-  C(
-    Auth => [ '/users/sign_in', '/users/sign_out', '/users/twitter_verified' ],
-    get => sub {
-      my ($self) = @_;
-      $self->redirect(R('Home'));
-    },
-    post => sub {
-      my ($self) = @_;
-      $self->redirect(R('Home'));
-    },
-  ),
-
-  ## Regular Pages
+  ## Home Page
   C(
     Home => ['/'],
     get => sub {
@@ -39,21 +24,30 @@ our @C = (
     },
   ),
 
+  ## Authentication
   C(
-    Space => [ '/(.*)' ],
+    Auth => [ '/users/sign_in', '/users/sign_out', '/users/twitter_verified' ],
     get => sub {
-      my ($self, $path) = @_;
-      my $v = $self->v;
-      #$v->{space} = $Space->find($path);
-      if (1) {
-        $self->render('space');
-      } else {
-        $self->status = 404;
-        $self->render('not_found');
-      }
+      my ($self) = @_;
+      $self->redirect(R('Home'));
+    },
+    post => sub {
+      my ($self) = @_;
+      $self->redirect(R('Home'));
+    },
+  ),
+
+  ## Help
+  C(
+    Help => [ '/@help' ],
+    get => sub {
+      my ($self) = @_;
+      $self->render('_help');
     }
   ),
 
+  ## Object
+  #  Every object (whether it be a note or a page) gets its own URL.
   C(
     Object => [ '/(.*?)___(.*)' ],
     get => sub {
@@ -64,7 +58,7 @@ our @C = (
     }
   ),
 
-  ## Not a page of its own, but pretty big for a "partial".
+  ## The MetaSpace is where a user controls his own spaces.
   C(
     MetaSpace => [ '/@metaspace' ],
     get => sub {
@@ -99,6 +93,22 @@ our @C = (
       #  return '{"success":false}';
       #}
     },
+  ),
+
+  # Space has to be last, because it is so general.
+  C(
+    Space => [ '/(.*)' ],
+    get => sub {
+      my ($self, $path) = @_;
+      my $v = $self->v;
+      #$v->{space} = $Space->find($path);
+      if (1) {
+        $self->render('space');
+      } else {
+        $self->status = 404;
+        $self->render('not_found');
+      }
+    }
   ),
 
 );
