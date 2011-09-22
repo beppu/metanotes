@@ -5,6 +5,11 @@ use Moo::Role;
 use AnyEvent::CouchDB;
 use JSON;
 
+# a CouchDB database object
+has db => (
+  is => 'rw'
+);
+
 # all CouchDB documents have these
 has _id => (
   is => 'ro',
@@ -27,19 +32,36 @@ has modified_at => (
   is => 'rw'
 );
 
+# MOVE
 sub create {
+  my ($self, $doc) = @_;
 }
 
+# MOVE
 sub find {
+  my ($self, $id) = @_;
+  my $class = ref $self;
+  my $db = $self->db;
+  my $doc = $db->open_doc($id)->recv;
+  $doc->{db} = $db;
+  $class->new($doc);
 }
 
+# refresh self from database (if needed)
 sub read {
 }
 
-sub delete {
+# save self to database
+sub update {
+  my ($self) = @_;
+  my $doc = $self->to_hash;
+  my $db = $self->db;
+  $db->save_doc($doc)->recv;
+  $self;
 }
 
-sub to_hash {
+# delete self from database
+sub delete {
 }
 
 1;
