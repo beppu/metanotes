@@ -27,6 +27,7 @@ our %CONFIG  = (
 our %CSS = (
   development => [
     '/css/ui-darkness/jquery-ui-1.8.16.custom.css',
+    '/css/jquery.fancybox-1.3.4.css',
     '/css/main.css',
   ],
   production => [
@@ -40,6 +41,9 @@ our %JS = (
     '/js/jquery-1.6.4.js',
     '/js/jquery-ui-1.8.16.custom.min.js',
     '/js/jquery.jsPlumb-1.3.3-all-min.js',
+    '/js/jquery.easing-1.3.pack.js',
+    '/js/jquery.mousewheel-3.0.4.pack.js',
+    '/js/jquery.fancybox-1.3.4.pack.js',
     '/js/mn.js',
     '/js/mn.metaspace.js',
     '/js/mn.panel.js',

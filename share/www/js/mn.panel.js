@@ -110,7 +110,7 @@ $.mn.IframePanel.prototype = {
   virgin : true,
 
   hide: function() {
-    $(this.sel).hide('slow');
+    $(this.sel).hide(300, 'easeInBack');
   },
 
   show: function() {
@@ -120,7 +120,7 @@ $.mn.IframePanel.prototype = {
       this.virgin = false;
     }
     $(this.sel).find('iframe').attr({ height: (hi - 27) + 'px' });
-    $(this.sel).css({ height: (hi - 27) + 'px' }).show('slow');
+    $(this.sel).css({ height: (hi - 27) + 'px' }).show(300, 'easeOutBack');
   },
 
   resize: function() {
@@ -131,10 +131,7 @@ $.mn.IframePanel.prototype = {
   }
 };
 
-// panel for the space log
-// panel for workspace navigation
-// panel for preferences
-// panel for searching
+// panel for searching - TODO
 
 // action for increasing font size {{{1
 $.mn.fontIncreaseAction = {

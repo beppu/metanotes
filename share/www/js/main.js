@@ -40,6 +40,17 @@ $.mn.panels.add('help', new $.mn.IframePanel({
   width : '420px'
 }));
 
+$('a#metaspace').fancybox({
+  width         : '90%',
+  height        : '90%',
+  autoScale     : true,
+  transitionIn  : 'elastic',
+  transitionOut : 'elastic',
+  easingIn      : 'easeOutBack',
+  easingOut     : 'easeInBack',
+  type          : 'iframe'
+});
+
 // demo
 document.onselectstart = function () { return false; };             
 jsPlumb.DefaultDragOptions = { cursor: "pointer", zIndex:2000 };

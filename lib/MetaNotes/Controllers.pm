@@ -63,7 +63,7 @@ our @C = (
     MetaSpace => [ '/@metaspace' ],
     get => sub {
       my ($self) = @_;
-      $self->v->{metaspace} = metaspace($self->state->{u});
+      $self->v->{metaspace} = H->new(); #metaspace($self->state->{u});
       $self->render('_metaspace');
     }
   ),
