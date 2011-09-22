@@ -32,19 +32,9 @@ has modified_at => (
   is => 'rw'
 );
 
-# MOVE
+# create self in database
 sub create {
-  my ($self, $doc) = @_;
-}
-
-# MOVE
-sub find {
-  my ($self, $id) = @_;
-  my $class = ref $self;
-  my $db = $self->db;
-  my $doc = $db->open_doc($id)->recv;
-  $doc->{db} = $db;
-  $class->new($doc);
+  my ($self) = @_;
 }
 
 # refresh self from database (if needed)

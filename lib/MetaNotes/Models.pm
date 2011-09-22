@@ -1,5 +1,41 @@
 package MetaNotes::Models;
 use common::sense;
+use aliased 'MetaNotes::H';
+use AnyEvent::CouchDB;
+use MetaNotes::Object::Note;
+use MetaNotes::Object::Space;
+
+our $couchdb = couchdb('metanotes');
+
+sub find {
+  my ($self, $id) = @_;
+  my $class = 'MetaNotes::Object::' . $self->type;
+  my $db    = $self->db;
+  my $doc   = $db->open_doc($id)->recv;
+  $doc->{db} = $db;
+  $class->new($doc);
+}
+
+our $db = H->new({
+    spaces => H->new(
+      {
+        type   => 'Safe',
+        db     => $couchdb,
+        find   => \&find,
+      }
+    ),
+    notes => H->new(
+      {
+        type   => 'Note',
+        db     => $couchdb,
+        find   => \&find,
+      }
+    ),
+    view => H->new(
+      {
+      }
+    )
+});
 
 =head1 NAME
 
