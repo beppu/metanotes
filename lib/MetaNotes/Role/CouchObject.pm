@@ -44,8 +44,8 @@ sub read {
 # save self to database
 sub update {
   my ($self) = @_;
-  my $doc = $self->to_hash;
-  my $db = $self->db;
+  my $doc    = $self->to_hash;
+  my $db     = $self->db;
   $db->save_doc($doc)->recv;
   $self->_rev($doc->{_rev});
   $self;
@@ -65,7 +65,6 @@ around 'to_hash' => sub {
   $doc->{type}        = $self->type;
   $doc->{created_at}  = $self->{created_at};
   $doc->{modified_at} = time;
-  warn "hello from couchobject";
   $doc;
 };
 
