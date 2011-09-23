@@ -17,6 +17,7 @@ has editors => (
   is => 'rw'
 );
 
+# optionally password protect this object
 has password => (
   is => 'rw'
 );
@@ -31,6 +32,19 @@ sub connect {
 
 sub disconnect {
 }
+
+around 'to_hash' => sub {
+  my $orig = shift;
+  my $self = $_[0];
+  my $doc  = $orig->(@_);
+  warn "hello from widget";
+  $doc->{creator}     = $self->creator;
+  $doc->{viewers}     = $self->viewers;
+  $doc->{editors}     = $self->editors;
+  $doc->{password}    = $self->password;
+  $doc->{connections} = $self->connections;
+  $doc;
+};
 
 1;
 

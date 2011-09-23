@@ -4,8 +4,25 @@ use aliased 'MetaNotes::H';
 use AnyEvent::CouchDB;
 use MetaNotes::Object::Note;
 use MetaNotes::Object::Space;
+use MetaNotes::Object::User;
 
-our $couchdb = couchdb('metanotes');
+our $couchdb;
+our $db;
+
+sub init {
+  $couchdb = couchdb($MetaNotes::CONFIG{db});
+
+  $db = H->new({
+    users  => couch_object_finder('User',  $couchdb),
+    spaces => couch_object_finder('Space', $couchdb),
+    notes  => couch_object_finder('Note',  $couchdb),
+
+    view   => H->new({
+      spaces_by_path => sub {
+      }
+    }),
+  });
+}
 
 sub find {
   my ($self, $id) = @_;
@@ -16,26 +33,16 @@ sub find {
   $class->new($doc);
 }
 
-our $db = H->new({
-    spaces => H->new(
-      {
-        type   => 'Safe',
-        db     => $couchdb,
-        find   => \&find,
-      }
-    ),
-    notes => H->new(
-      {
-        type   => 'Note',
-        db     => $couchdb,
-        find   => \&find,
-      }
-    ),
-    view => H->new(
-      {
-      }
-    )
-});
+sub couch_object_finder {
+  my ($type, $db) = @_;
+  H->new({
+    type => $type,
+    db   => $db,
+    find => \&find,
+  });
+}
+
+1;
 
 =head1 NAME
 

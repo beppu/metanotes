@@ -1,23 +1,22 @@
-package MetaNotes::Object::Space;
+package MetaNotes::Object::User;
 use common::sense;
 use Moo;
 with 'MetaNotes::Role::CouchObject';
 
-has owner => (
+has name => (
   is => 'ro'
 );
 
-has path => (
-  is => 'rw'
-);
-
-has title => (
+has twitter_accounts => (
   is => 'rw'
 );
 
 sub to_hash {
   my ($self) = @_;
-
+  {
+    name             => $self->name,
+    twitter_accounts => $self->twitter_accounts,
+  };
 }
 
 1;
@@ -26,14 +25,13 @@ __END__
 
 =head1 NAME
 
-MetaNotes::Object::Space - a place where notes go
+MetaNotes::Object::User - the original widget
 
 =head1 SYNOPSIS
 
   use MetaNotes::Models 'all';
-  my $space = $Space->find('Space-/Music/Perfume');
-  $space->title('三人あわせてパーフュームです');
-  $space->update();
+  my $user = $User->find('User-metatron');
+  $user->name();
 
 =head1 DESCRIPTION
 
@@ -42,3 +40,5 @@ MetaNotes::Object::Space - a place where notes go
 John BEPPU E<lt>beppu@metanotes.comE<gt>
 
 =cut
+
+

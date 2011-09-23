@@ -3,8 +3,9 @@ use v5.008;
 use common::sense;
 
 use Squatting;
-use MetaNotes::Controllers;
+use MetaNotes::Models;
 use MetaNotes::Views;
+use MetaNotes::Controllers;
 use aliased 'MetaNotes::H';
 
 use JSON;
@@ -61,6 +62,7 @@ sub init {
     my $config = decode_json(io('CONFIG.js')->all);
     %CONFIG = (%CONFIG, %$config);
   };
+  MetaNotes::Models::init();
   MetaNotes::Views::init();
   $class->next::method
 }

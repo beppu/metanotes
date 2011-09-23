@@ -24,6 +24,18 @@ has html_content => (
   is => 'rw'
 );
 
+sub to_hash {
+  my ($self, $doc) = @_;
+  warn "hello from note";
+  $self->maybe::next::method($doc);
+  #my $doc = {
+  #  format       => $self->format,
+  #  title        => $self->title,
+  #  content      => $self->content,
+  #  html_content => $self->html_content,
+  #};
+}
+
 1;
 
 __END__
@@ -35,8 +47,8 @@ MetaNotes::Object::Note - the original widget
 =head1 SYNOPSIS
 
   use MetaNotes::Models 'all';
-  my $page = $Note->find('/');
-  $page->path();
+  my $note = $Note->find('c6e1c665e9a076208c97d45a82000ca9');
+  $note->html_content();
 
 =head1 DESCRIPTION
 

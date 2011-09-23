@@ -16,7 +16,7 @@ has _id => (
 );
 
 has _rev => (
-  is => 'ro',
+  is => 'rw',
 );
 
 # custom fields I want all my objects to have
@@ -47,6 +47,7 @@ sub update {
   my $doc = $self->to_hash;
   my $db = $self->db;
   $db->save_doc($doc)->recv;
+  $self->_rev($doc->{_rev});
   $self;
 }
 
@@ -54,13 +55,27 @@ sub update {
 sub delete {
 }
 
+## modifiers
+around 'to_hash' => sub {
+  my $orig = shift;
+  my $self = $_[0];
+  my $doc  = $orig->(@_);
+  $doc->{_id}         = $self->_id;
+  $doc->{_rev}        = $self->_rev;
+  $doc->{type}        = $self->type;
+  $doc->{created_at}  = $self->{created_at};
+  $doc->{modified_at} = time;
+  warn "hello from couchobject";
+  $doc;
+};
+
 1;
 
 __END__
 
 =head1 NAME
 
-MetaNotes::Object::CouchObject - a role for objects
+MetaNotes::Role::CouchObject - a role for objects stored in CouchDB
 
 =head1 SYNOPSIS
 
