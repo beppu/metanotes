@@ -2,24 +2,29 @@ package MetaNotes::Role::Widget;
 use common::sense;
 use Moo::Role;
 
-# the user who instantiated this widget
-has creator => (
-  is => 'ro'
+# x coordinate (css left)
+has x => (
+  is => 'rw',
 );
 
-# those who can see
-has viewers => (
-  is => 'rw'
+# y coordinate (css top)
+has y => (
+  is => 'rw',
 );
 
-# those who can edit
-has editors => (
-  is => 'rw'
+# z-index (css z-index)
+has z => (
+  is => 'rw',
 );
 
-# optionally password protect this object
-has password => (
-  is => 'rw'
+#
+has width => (
+  is => 'rw',
+);
+
+#
+has height => (
+  is => 'rw',
 );
 
 # outgoing connections
@@ -37,10 +42,11 @@ around 'to_hash' => sub {
   my $orig = shift;
   my $self = $_[0];
   my $doc  = $orig->(@_);
-  $doc->{creator}     = $self->creator;
-  $doc->{viewers}     = $self->viewers;
-  $doc->{editors}     = $self->editors;
-  $doc->{password}    = $self->password;
+  $doc->{x}           = $self->x;
+  $doc->{y}           = $self->y;
+  $doc->{z}           = $self->z;
+  $doc->{width}       = $self->width;
+  $doc->{height}      = $self->height;
   $doc->{connections} = $self->connections;
   $doc;
 };
