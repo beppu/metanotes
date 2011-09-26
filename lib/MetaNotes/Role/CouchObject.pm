@@ -12,7 +12,7 @@ has db => (
 
 # all CouchDB documents have these
 has _id => (
-  is => 'ro',
+  is => 'rw',
 );
 
 has _rev => (
@@ -35,6 +35,14 @@ has modified_at => (
 # create self in database
 sub create {
   my ($self) = @_;
+  my $db     = $self->db;
+  my $doc    = $self->to_hash;
+  # $doc->{created_at} = something;
+  # $doc->{modified_at} = something;
+  $db->save_doc($doc)->recv;
+  $self->_id($doc->{_id});
+  $self->_rev($doc->{_rev});
+  $self;
 }
 
 # refresh self from database (if needed)
@@ -44,8 +52,9 @@ sub read {
 # save self to database
 sub update {
   my ($self) = @_;
-  my $doc    = $self->to_hash;
   my $db     = $self->db;
+  my $doc    = $self->to_hash;
+  # $doc->{modified_at} = something;
   $db->save_doc($doc)->recv;
   $self->_rev($doc->{_rev});
   $self;
