@@ -14,7 +14,10 @@ has title => (
 
 sub to_hash {
   my ($self) = @_;
-
+  return {
+    path  => $self->path,
+    title => $self->title,
+  };
 }
 
 1;

@@ -27,14 +27,12 @@ has html_content => (
 
 sub to_hash {
   my ($self, $doc) = @_;
-  warn "hello from note";
-  $self->maybe::next::method($doc);
-  #my $doc = {
-  #  format       => $self->format,
-  #  title        => $self->title,
-  #  content      => $self->content,
-  #  html_content => $self->html_content,
-  #};
+  return {
+    format       => $self->format,
+    title        => $self->title,
+    content      => $self->content,
+    html_content => $self->html_content,
+  };
 }
 
 1;
