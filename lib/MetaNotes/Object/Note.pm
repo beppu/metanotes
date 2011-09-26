@@ -3,6 +3,7 @@ use common::sense;
 use Moo;
 with 'MetaNotes::Role::CouchObject';
 with 'MetaNotes::Role::Widget';
+with 'MetaNotes::Role::Permissions';
 
 # textile, markdown, bbcode, whatever
 has format => (

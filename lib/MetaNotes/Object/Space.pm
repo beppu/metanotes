@@ -2,6 +2,7 @@ package MetaNotes::Object::Space;
 use common::sense;
 use Moo;
 with 'MetaNotes::Role::CouchObject';
+with 'MetaNotes::Role::Permissions';
 
 has owner => (
   is => 'ro'
