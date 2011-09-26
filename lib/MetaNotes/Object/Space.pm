@@ -4,10 +4,6 @@ use Moo;
 with 'MetaNotes::Role::CouchObject';
 with 'MetaNotes::Role::Permissions';
 
-has owner => (
-  is => 'ro'
-);
-
 has path => (
   is => 'rw'
 );
