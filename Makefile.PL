@@ -3,12 +3,13 @@ use inc::Module::Install;
 name           'MetaNotes';
 all_from       'lib/MetaNotes.pm';
 
+requires       'parent';
 requires       'aliased';
 requires       'common::sense';
 requires       'Moo';
 requires       'Text::Xslate';
 requires       'XML::Feed';
-requires       'Math::BitInt::GMP';
+requires       'Math::BigInt::GMP';
 requires       'Net::OpenID::Consumer';
 requires       'Net::Twitter::Lite';
 requires       'LWPx::ParanoidAgent';

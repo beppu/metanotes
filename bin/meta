@@ -1,7 +1,5 @@
 #!/usr/bin/perl
-
-use strict;
-use warnings;
+use common::sense;
 use MetaNotes;
 MetaNotes->init;
 

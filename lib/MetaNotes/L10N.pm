@@ -1,8 +1,5 @@
 package MetaNotes::L10N;
-use strict;
-use warnings;
-use base 'Locale::Maketext';
-
+use parent 'Locale::Maketext';
 
 
 1;

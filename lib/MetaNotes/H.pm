@@ -1,7 +1,6 @@
 package MetaNotes::H;
-use strict;
-use warnings;
-use base 'Squatting::H';
+use common::sense;
+use parent 'Squatting::H';
 
 use Clone;
 use Scalar::Util 'blessed';
