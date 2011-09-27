@@ -37,4 +37,13 @@ sub path {
   }
 }
 
+around 'to_hash' => sub {
+  my $orig = shift;
+  my $self = $_[0];
+  my $doc  = $orig->(@_);
+  $doc->{parent}      = $self->parent;
+  $doc->{cached_path} = $self->cached_path;
+  $doc;
+};
+
 1;
