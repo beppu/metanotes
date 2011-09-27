@@ -37,6 +37,8 @@ sub create {
   my ($self) = @_;
   my $db     = $self->db;
   my $doc    = $self->to_hash;
+  delete($doc->{_id}) unless defined $doc->{_id};
+  delete($doc->{_rev});
   # $doc->{created_at} = something;
   # $doc->{modified_at} = something;
   $db->save_doc($doc)->recv;
@@ -45,7 +47,7 @@ sub create {
   $self;
 }
 
-# refresh self from database (if needed)
+# TODO - refresh self from database (if needed)
 sub read {
 }
 
@@ -60,7 +62,7 @@ sub update {
   $self;
 }
 
-# delete self from database
+# TODO - delete self from database
 sub delete {
 }
 

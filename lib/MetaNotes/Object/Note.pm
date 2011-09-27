@@ -2,6 +2,7 @@ package MetaNotes::Object::Note;
 use common::sense;
 use Moo;
 with 'MetaNotes::Role::CouchObject';
+with 'MetaNotes::Role::Path';
 with 'MetaNotes::Role::Widget';
 with 'MetaNotes::Role::Permissions';
 
@@ -24,6 +25,12 @@ has content => (
 has html_content => (
   is => 'rw'
 );
+
+# path part
+sub basename {
+  my ($self) = @_;
+  $self->_id;
+}
 
 sub to_hash {
   my ($self, $doc) = @_;

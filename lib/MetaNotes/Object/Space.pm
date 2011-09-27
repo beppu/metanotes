@@ -1,22 +1,38 @@
 package MetaNotes::Object::Space;
 use common::sense;
 use Moo;
+use File::Spec;
 with 'MetaNotes::Role::CouchObject';
+with 'MetaNotes::Role::Path';
 with 'MetaNotes::Role::Permissions';
-
-has path => (
-  is => 'rw'
-);
 
 has title => (
   is => 'rw'
 );
 
+has width => (
+  is => 'rw'
+);
+
+has height => (
+  is => 'rw'
+);
+
+sub basename {
+  my ($self) = @_;
+  my $path = $self->_id;
+  ouch('NoId') unless $path;
+  $path =~ s/^Space-//;
+  my @parts = File::Spec->splitdir($path);
+  $parts[-1];
+}
+
 sub to_hash {
   my ($self) = @_;
   return {
-    path  => $self->path,
-    title => $self->title,
+    title  => $self->title,
+    width  => $self->width,
+    height => $self->height,
   };
 }
 
