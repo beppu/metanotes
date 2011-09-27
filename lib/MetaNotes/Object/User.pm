@@ -11,6 +11,12 @@ has twitter_accounts => (
   is => 'rw'
 );
 
+# constructor customization
+sub BUILD {
+  my ($self) = @_;
+  $self->type('User');
+}
+
 sub to_hash {
   my ($self) = @_;
   {

@@ -26,6 +26,12 @@ has html_content => (
   is => 'rw'
 );
 
+# constructor customization
+sub BUILD {
+  my ($self) = @_;
+  $self->type('Note');
+}
+
 # path part
 sub basename {
   my ($self) = @_;

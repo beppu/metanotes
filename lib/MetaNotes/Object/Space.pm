@@ -18,6 +18,12 @@ has height => (
   is => 'rw'
 );
 
+# constructor customization
+sub BUILD {
+  my ($self) = @_;
+  $self->type('Space');
+}
+
 sub basename {
   my ($self) = @_;
   my $path = $self->_id;
