@@ -34,13 +34,29 @@ my $in = sub {
 # Is this object viewably by $user?
 sub viewable_by {
   my ($self, $user) = @_;
-  $in->($self->viewers, $user);
+  if (not defined $self->viewers) {
+    return 1;
+  }
+  elsif (@{ $self->viewers } == 0) {
+    return $self->owner eq $user
+  }
+  else {
+    return $in->($self->viewers, $user);
+  }
 }
 
 # Is this object editable by $user?
 sub editable_by {
   my ($self, $user) = @_;
-  $in->($self->editors, $user);
+  if (not defined $self->editors) {
+    return 1;
+  }
+  elsif (@{ $self->editors } == 0) {
+    return $self->owner eq $user
+  }
+  else {
+    return $in->($self->editors, $user);
+  }
 }
 
 around 'to_hash' => sub {

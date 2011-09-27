@@ -21,7 +21,7 @@ has _rev => (
 
 # custom fields I want all my objects to have
 has type => (
-  is => 'ro'
+  is => 'rw'
 );
 
 has created_at => (
@@ -29,7 +29,7 @@ has created_at => (
 );
 
 has modified_at => (
-  is => 'rw'
+  is => 'ro'
 );
 
 # create self in database
