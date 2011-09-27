@@ -7,6 +7,8 @@ requires       'parent';
 requires       'aliased';
 requires       'common::sense';
 requires       'Moo';
+requires       'Ouch';
+requires       'Try::Tiny';
 requires       'Text::Xslate';
 requires       'XML::Feed';
 requires       'Math::BigInt::GMP';
