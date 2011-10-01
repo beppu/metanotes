@@ -15,7 +15,7 @@ requires       'Math::BigInt::GMP';
 requires       'Net::OpenID::Consumer';
 requires       'Net::Twitter::Lite';
 requires       'LWPx::ParanoidAgent';
-requires       'LWPx::Protocol::https';
+requires       'LWP::Protocol::https';
 requires       'Doorman';
 requires       'Starman';
 requires       'AnyEvent::CouchDB';
@@ -28,5 +28,11 @@ no_index       'directory' => 'eg';
 
 install_script 'bin/meta';
 install_share;
+
+postamble qq{
+develop :
+	fliggy -p :5000 -R lib bin/metanotes.psgi &
+	cd share/www && sass --watch sass:css &
+};
 
 WriteAll;
