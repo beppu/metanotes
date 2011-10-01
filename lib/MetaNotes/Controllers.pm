@@ -19,7 +19,7 @@ our @C = (
       #warn pp(\%MetaNotes::CONFIG);
       #$v->{space} = $Space->find('/');
 
-      $v->{space} = { test => 1, panel => [ 'reddit' ], auth => 'twitter', foo => 'bar' };
+      $v->{space} = { notes => [], disclaimer => "I'm not sure where on the page the command links should go." };
       $self->render('space');
     },
   ),
