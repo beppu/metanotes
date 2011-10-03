@@ -51,6 +51,10 @@ $('a#metaspace').fancybox({
   type          : 'iframe'
 });
 
+$('a.toggle-grid').click(function(ev){
+  $('body').toggleClass('grid');
+});
+
 // demo
 document.onselectstart = function () { return false; };             
 jsPlumb.DefaultDragOptions = { cursor: "pointer", zIndex:2000 };
