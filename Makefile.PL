@@ -31,7 +31,7 @@ install_share;
 
 postamble qq{
 develop :
-	fliggy -p :5000 -R lib bin/metanotes.psgi &
+	starman -p :5000 -R lib bin/metanotes.psgi &
 	cd share/www && sass --watch sass:css &
 };
 

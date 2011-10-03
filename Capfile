@@ -28,7 +28,7 @@ namespace :deploy do
       #{preamble} && 
       cd #{latest_release} && 
       bin/with-pid-file #{deploy_to}/metanotes.pid \
-        fliggy --listen :5000 bin/metanotes.psgi > /dev/null 2>&1 &
+        starman --listen :5000 bin/metanotes.psgi > /dev/null 2>&1 &
     CMD
   end
   task :restart do
