@@ -26,9 +26,14 @@
 
     <!-- don't know where these should go -->
     <div class="commands">
+    : if ($doorman.is_sign_in) {
       <a href="/@metaspace" id="metaspace">new space</a><br>
       <a href="/@metaspace" id="metaspace">new note</a><br>
       <a href="/@metaspace" id="metaspace">new image</a>
+    : }
+    : else {
+      nada
+    : }
     </div>
 
     <!-- space -->
