@@ -53,6 +53,12 @@ $('a#metaspace').fancybox({
 
 $('a.toggle-grid').click(function(ev){
   $('body').toggleClass('grid');
+  // $.mn.toggleGrid();
+  // - should toggle the grid class on body
+  // - should find all modifiable widgets on page and
+  //   - .draggable('option', 'grid', [8,8]
+  //   - .resizable('option', 'grid', [8,8]
+  //   - on first click only, snap to grid
 });
 
 // demo
