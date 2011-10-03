@@ -1,5 +1,6 @@
 package MetaNotes::Models;
 use common::sense;
+use parent 'Exporter';
 use aliased 'MetaNotes::H';
 use AnyEvent::CouchDB;
 use MetaNotes::Object::Note;
@@ -8,6 +9,8 @@ use MetaNotes::Object::User;
 
 our $couchdb;
 our $db;
+
+our @EXPORT_OK = qw($couchdb $db);
 
 sub init {
   $couchdb = couchdb($MetaNotes::CONFIG{db});

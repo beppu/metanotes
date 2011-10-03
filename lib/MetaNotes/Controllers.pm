@@ -1,7 +1,9 @@
 package MetaNotes::Controllers;
 use common::sense;
 use aliased 'MetaNotes::H';
+use MetaNotes::Models qw($db);
 use Data::Dump 'pp';
+use Try::Tiny;
 
 our @C = (
 
@@ -17,9 +19,9 @@ our @C = (
       #warn $doorman->sign_out_path;
       #warn $doorman->twitter_screen_name;
       #warn pp(\%MetaNotes::CONFIG);
-      #$v->{space} = $Space->find('/');
+      $v->{space} = $db->spaces->find('Space-/');
 
-      $v->{space} = { notes => [], disclaimer => "I'm not sure where on the page the command links should go." };
+      #$v->{space} = { notes => [], disclaimer => "I'm not sure where on the page the command links should go." };
       $self->render('space');
     },
   ),
@@ -101,10 +103,19 @@ our @C = (
     get => sub {
       my ($self, $path) = @_;
       my $v = $self->v;
-      #$v->{space} = $Space->find($path);
-      if (1) {
+      try {
+        warn "hi";
+        $v->{space} = $db->spaces->find("Space-/$path");
+        warn "bye";
+      }
+      catch {
+        warn "wtf?";
+      };
+      if ($v->{space}) {
+        warn "space";
         $self->render('space');
       } else {
+        warn "not found";
         $self->status = 404;
         $self->render('not_found');
       }
