@@ -34,6 +34,9 @@ my $in = sub {
 # Is this object viewably by $user?
 sub viewable_by {
   my ($self, $user) = @_;
+  if (ref $user) {
+    $user = $user->name;
+  }
   if (not defined $self->viewers) {
     return 1;
   }
@@ -48,6 +51,9 @@ sub viewable_by {
 # Is this object editable by $user?
 sub editable_by {
   my ($self, $user) = @_;
+  if (ref $user) {
+    $user = $user->name;
+  }
   if (not defined $self->editors) {
     return 1;
   }

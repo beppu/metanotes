@@ -77,23 +77,79 @@ our @C = (
     get => sub {
       my ($self, $type, $id) = @_;
       my $v = $self->v;
-      #$v->{space} = $Object{$type}->find($id);
-      $self->render('space');
+      my $u      = $v->{u};
+      my $input  = $self->input;
+      my %params = %{$self->input};
+      delete $params{method};
+      my $types  = "${type}s";
+      $id = "/$id" if ($type eq 'space');
+      my $_id = sprintf('%s-%s', ucfirst($type), $id);
+
+      my $object = $db->$types->find($_id);
+      if (!$object) {
+        # object not found
+        $self->status = 404;
+        return '{"success":false}';
+      }
+      elsif ($object && (not $object->can('viewable_by'))) {
+        # objects w/o permissions
+        return JSON::encode_json($object->to_hash);
+      }
+      elsif ($object && $object->can('viewable_by') && $object->viewable_by($u)) {
+        # objects w/ permissions
+        return JSON::encode_json($object->to_hash);
+      }
+      else {
+        # not allowed if we get this far
+        $self->status = 403;
+        return '{"success":false}';
+      }
     },
 
     post => sub {
       my ($self, $type, $id) = @_;
-      my $u      = $self->state->{u};
+      my $v      = $self->v;
+      my $u      = $v->{u};
       my $input  = $self->input;
       my %params = %{$self->input};
       delete $params{method};
-      #my $object = $Object{$type}->find($id);
-      #my $method = $input->{method};
-      #if ($u->may($method, $object)) {
-      #  return $object->$method(\%params);
-      #} else {
-      #  return '{"success":false}';
-      #}
+      my $types  = "${type}s";
+      $id = "/$id" if ($type eq 'space');
+      my $_id = sprintf('%s-%s', ucfirst($type), $id);
+      warn pp($u);
+
+      my $object = $db->$types->find($_id);
+      if ($object) {
+        if ((not $object->can('editable_by')) || 
+            ($object->can('editable_by') && $object->editable_by($u))) 
+        {
+          # allowed to edit
+          warn pp \%params;
+          my $method = $input->{method};
+          if ($method eq 'create') {
+            # TODO
+          }
+          elsif ($method eq 'delete') {
+            # TODO
+          }
+          else {
+            # method is assumed to be update
+            # TODO
+          }
+          return JSON::encode_json($object->to_hash);
+        }
+        else {
+          # not allowed to edit
+          $self->status = 403;
+          return '{"success":false}';
+        }
+      }
+      else {
+        # object not found
+        $self->status = 404;
+        return '{"success":false}';
+      }
+
     },
   ),
 

@@ -3,7 +3,7 @@ use v5.008;
 use common::sense;
 
 use Squatting;
-use MetaNotes::Models;
+use MetaNotes::Models qw($db);
 use MetaNotes::Views;
 use MetaNotes::Controllers;
 use aliased 'MetaNotes::H';
@@ -82,6 +82,16 @@ sub service {
   $v->{feed_title} = ('MetaNotes');
   $v->{feed_url}   = ('/feed.xml');
   $v->{doorman}    = $c->env->{'doorman.users.twitter'};
+
+  # put user in $v->{u}
+  if (my $name = $v->{doorman}->twitter_screen_name) {
+    try {
+      $v->{u} = $db->users->find("User-$name");
+      # TODO - if not found, create
+    }
+    catch {
+    };
+  }
 
   $class->next::method($c, @args);
 }
