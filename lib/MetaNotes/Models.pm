@@ -2,6 +2,7 @@ package MetaNotes::Models;
 use common::sense;
 use parent 'Exporter';
 use aliased 'MetaNotes::H';
+use Try::Tiny;
 use AnyEvent::CouchDB;
 use MetaNotes::Object::Note;
 use MetaNotes::Object::Space;
@@ -31,7 +32,14 @@ sub find {
   my ($self, $id) = @_;
   my $class = 'MetaNotes::Object::' . $self->type;
   my $db    = $self->db;
-  my $doc   = $db->open_doc($id)->recv;
+  my $doc;
+  try {
+    $doc = $db->open_doc($id)->recv;
+  }
+  catch {
+    # try again; usually works
+    $doc = $db->open_doc($id)->recv;
+  };
   $doc->{db} = $db;
   $class->new($doc);
 }
