@@ -3,6 +3,7 @@ use common::sense;
 use parent 'Exporter';
 use aliased 'MetaNotes::H';
 use Try::Tiny;
+use Data::Dump 'pp';
 use AnyEvent::CouchDB;
 use MetaNotes::Object::Note;
 use MetaNotes::Object::Space;
@@ -17,14 +18,20 @@ sub init {
   $couchdb = couchdb($MetaNotes::CONFIG{db});
 
   $db = H->new({
+
+    # type-specific finders
     users  => couch_object_finder('User',  $couchdb),
     spaces => couch_object_finder('Space', $couchdb),
     notes  => couch_object_finder('Note',  $couchdb),
+    #images  => couch_object_finder('Image',  $couchdb),
 
     view   => H->new({
+      space_and_notes => sub {
+      },
       spaces_by_path => sub {
-      }
+      },
     }),
+
   });
 }
 
@@ -44,12 +51,37 @@ sub find {
   $class->new($doc);
 }
 
+sub create {
+  my ($self, $params) = @_;
+  my $class  = 'MetaNotes::Object::' . $self->type;
+  my $db     = $self->db;
+  my $object = $class->new($params);
+  my $doc    = $object->to_hash;
+  try {
+    $db->save_doc($doc)->recv;
+  }
+  catch {
+    $db->save_doc($doc)->recv;
+  };
+  $doc->{db} = $db;
+  $class->new($doc);
+}
+
+sub delete {
+  my ($self, @docs) = @_;
+  # the docs only need _id and _rev
+  # TODO
+}
+
+# these objects are in charge of their given $type
 sub couch_object_finder {
   my ($type, $db) = @_;
   H->new({
-    type => $type,
-    db   => $db,
-    find => \&find,
+    type   => $type,
+    db     => $db,
+    find   => \&find,
+    create => \&create,
+    delete => \&delete,
   });
 }
 

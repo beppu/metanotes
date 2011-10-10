@@ -10,7 +10,7 @@ requires 'basename';
 # in the widget's case, it is the space it lives in.
 # in the space's case, it is the superspace it is contained within.
 #   Space-/ is the only space that has no parent.
-has parent => (
+has parent_id => (
   is => 'rw'
 );
 
@@ -24,11 +24,11 @@ has cached_path => (
 sub path {
   my ($self) = @_;
   return $self->cached_path if $self->has_cached_path;
-  if ($self->parent) {
-    my $db            = $MetaNotes::Models::db; # XXX - What should I do to avoid this 'global' var?
-    my ($type, @rest) = split /-/, $self->parent;
+  if ($self->parent_id) {
+    my $db            = $MetaNotes::Models::db;
+    my ($type, @rest) = split /-/, $self->parent_id;
     my $types         = lc($type) . "s";
-    my $parent        = $db->$types->find($self->parent);
+    my $parent        = $db->$types->find($self->parent_id);
     ouch('MissingParent') unless $parent;
     return ($parent->path, $self->basename);
   }
@@ -41,7 +41,7 @@ around 'to_hash' => sub {
   my $orig = shift;
   my $self = $_[0];
   my $doc  = $orig->(@_);
-  $doc->{parent}      = $self->parent;
+  $doc->{parent_id}   = $self->parent_id;
   $doc->{cached_path} = $self->cached_path;
   $doc;
 };

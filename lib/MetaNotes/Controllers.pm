@@ -19,9 +19,12 @@ our @C = (
       #warn $doorman->sign_out_path;
       #warn $doorman->twitter_screen_name;
       #warn pp(\%MetaNotes::CONFIG);
+
       $v->{space} = $db->spaces->find('Space-/');
 
-      #$v->{space} = { notes => [], disclaimer => "I'm not sure where on the page the command links should go." };
+      # TODO - load space+widgets efficiently
+      # my ($space, @widgets) = $db->view->space_and_widgets('/');
+
       $self->render('space');
     },
   ),
@@ -74,6 +77,7 @@ our @C = (
   C(
     APIObject => [ '/api/v5/object/(\w+)/(.*)' ],
 
+    # read
     get => sub {
       my ($self, $type, $id) = @_;
       my $v = $self->v;
@@ -85,7 +89,10 @@ our @C = (
       $id = "/$id" if ($type eq 'space');
       my $_id = sprintf('%s-%s', ucfirst($type), $id);
 
-      my $object = $db->$types->find($_id);
+      my $object;
+      try {
+        $object = $db->$types->find($_id);
+      };
       if (!$object) {
         # object not found
         $self->status = 404;
@@ -106,13 +113,13 @@ our @C = (
       }
     },
 
+    # update
     post => sub {
       my ($self, $type, $id) = @_;
       my $v      = $self->v;
       my $u      = $v->{u};
       my $input  = $self->input;
       my %params = %{$self->input};
-      delete $params{method};
       my $types  = "${type}s";
       $id = "/$id" if ($type eq 'space');
       my $_id = sprintf('%s-%s', ucfirst($type), $id);
@@ -125,17 +132,6 @@ our @C = (
         {
           # allowed to edit
           warn pp \%params;
-          my $method = $input->{method};
-          if ($method eq 'create') {
-            # TODO
-          }
-          elsif ($method eq 'delete') {
-            # TODO
-          }
-          else {
-            # method is assumed to be update
-            # TODO
-          }
           return JSON::encode_json($object->to_hash);
         }
         else {
@@ -149,7 +145,27 @@ our @C = (
         $self->status = 404;
         return '{"success":false}';
       }
+    },
 
+    # create
+    put => sub {
+      my ($self, $type, $id) = @_;
+      my $v      = $self->v;
+      my $u      = $v->{u};
+      my $input  = $self->input;
+      my %params = %{$self->input};
+      my $types  = "${type}s";
+      $id = "/$id" if ($type eq 'space');
+      my $_id = sprintf('%s-%s', ucfirst($type), $id);
+      $params{_id} = $_id;
+      my $object = $db->$types->create(\%params);
+      $self->status = 200;
+      return JSON::encode_json($object->to_hash);
+    },
+
+    # delete
+    delete => sub {
+      my ($self, $type, $id) = @_;
     },
   ),
 
