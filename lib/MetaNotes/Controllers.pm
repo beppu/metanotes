@@ -157,7 +157,11 @@ our @C = (
       my $types  = "${type}s";
       $id = "/$id" if ($type eq 'space');
       my $_id = sprintf('%s-%s', ucfirst($type), $id);
-      $params{_id} = $_id;
+      $params{_id} = $_id unless ($id eq "-"); # ($id eq "-") means autogenerate an id
+      # TODO : authorization
+      # - load parent
+      # - stop if no parent found
+      # - check permissions against the parent
       my $object = $db->$types->create(\%params);
       $self->status = 200;
       return JSON::encode_json($object->to_hash);
