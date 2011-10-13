@@ -18,6 +18,11 @@ has height => (
   is => 'rw'
 );
 
+# for the artists
+has css => (
+  is => 'rw',
+);
+
 # constructor customization
 sub BUILD {
   my ($self) = @_;
@@ -39,6 +44,7 @@ sub to_hash {
     title  => $self->title,
     width  => $self->width,
     height => $self->height,
+    css    => $self->css,
   };
 }
 

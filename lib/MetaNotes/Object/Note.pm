@@ -26,6 +26,11 @@ has html_content => (
   is => 'rw'
 );
 
+# for the artists
+has css => (
+  is => 'rw'
+);
+
 # constructor customization
 sub BUILD {
   my ($self) = @_;
@@ -45,6 +50,7 @@ sub to_hash {
     title        => $self->title,
     content      => $self->content,
     html_content => $self->html_content,
+    css          => $self->css,
   };
 }
 
