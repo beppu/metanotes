@@ -16,10 +16,10 @@
 
     <menu id="main" type="toolbar">
       : if $doorman.is_sign_in {
-      <li><a href="<: $doorman.sign_out_path :>">(<: $doorman.twitter_screen_name :>) Sign Out</a></li>
+      <li class="user"><a href="<: $doorman.sign_out_path :>">(<: $doorman.twitter_screen_name :>) Sign Out</a></li>
       : }
       : else {
-      <li><a href="<: $doorman.sign_in_path :>">Sign In</a></li>
+      <li class="user"><a href="<: $doorman.sign_in_path :>">Sign In</a></li>
       : }
     </menu>
     <div id="panels"></div>

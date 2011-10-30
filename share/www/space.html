@@ -13,24 +13,26 @@
         <div class="body">&nbsp;</div>
       </div>
 
-      <div class="link"></div>
+      <div class="jqplumb link"></div>
 
       <div class="widget image" style="position: absolute">
         <img alt="xXx" />
       </div>
 
+      : include "share/www/_space_dialog.html"
+
     </div>
 
     <!-- metaspace -->
-    <a href="/@metaspace" id="metaspace">metaspace</a><br>
+    <a href="/@metaspace" id="metaspace-trigger">metaspace</a><br>
     <a class="toggle-grid" href="#">toggle grid</a></br>
 
     <!-- don't know where these should go -->
     <div class="commands">
     : if ($doorman.is_sign_in) {
-      <a href="#" id="">new space</a><br>
-      <a href="#" id="">new note</a><br>
-      <a href="#" id="">new image</a>
+      <a href="#" id="space-dialog-trigger">new space</a><br>
+      <a href="#" id="new-note-trigger">new note</a><br>
+      <!-- <a href="#" id="">new image</a> -->
     : }
     : else {
       nada
@@ -38,7 +40,7 @@
     </div>
 
     <!-- space -->
-    <div class="space">
+    <div class="space" style="width: 2048px; height: 4096px;">
       <pre><: pp($space) :></pre>
     </div>
 

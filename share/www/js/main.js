@@ -1,25 +1,8 @@
 $(function(){
 
 /*
-// construct widget objects
-$('div.space div.widget').mnWidget();
-
-// define COMET event handlers
-$.ev.handlers.noteCreate = function(ev){
-  new $.mn.Note(ev.widget);
-};
-$.ev.handlers.widgetMove = function(ev){
-  var widget = $.mn.objects[ev._id];
-  if (!widget) return;
-  widget._move(ev.x, ev.y);
-};
-
-// start COMET event loop
-if ($.mn.channels) {
-  $.ev.loop('/@events/'+Date.now(), $.mn.channels);
-}
-*/
-
+ * Panels
+ */
 $.mn.panels.ul = $('menu#main');
 /*
 $.mn.panels.add('reddit', new $.mn.IframePanel({
@@ -40,7 +23,10 @@ $.mn.panels.add('help', new $.mn.IframePanel({
   width : '420px'
 }));
 
-$('a#metaspace').fancybox({
+/*
+ * MetaSpace
+ */
+$('a#metaspace-trigger').fancybox({
   width         : '90%',
   height        : '90%',
   autoScale     : true,
@@ -51,6 +37,82 @@ $('a#metaspace').fancybox({
   type          : 'iframe'
 });
 
+/*
+ * Space Dialog 
+ */
+$.mn.spaceDialog = $('#space-dialog').dialog({
+  autoOpen  : false,
+  width     : 420,
+  height    : 330,
+  resizable : false
+});
+$('#space-dialog button').button();
+
+// TOOD
+// - form validation
+$('#space-dialog form').submit(function(ev){
+  var title, path, wd, hi;
+  var space = $.mn.spaceDialog;
+  var form  = $(this);
+  title  = form.find('input[name=title]').val();
+  path   = form.find('input[name=path]').val();
+  width  = form.find('input[name=width]').val();
+  height = form.find('input[name=height]').val();
+  $.ajax({
+    type : 'PUT',
+    url  : '/api/v5/object/space/' + encodeURIComponent(path),
+    data : {
+      title  : title,
+      width  : width,
+      height : height
+    }
+  })
+  .success(function(r){
+    console.log('success', r);
+    space.dialog('close');
+    form.find('input[name=title]').val('');
+    form.find('input[name=path]').val('');
+    form.find('input[name=width]').val('');
+    form.find('input[name=height]').val('');
+    $('a#metaspace-trigger').click();
+  })
+  .error(function(r){
+    console.log('error', r);
+  });
+  return false;
+});
+
+/*
+ * Note
+ */
+$('#new-note-trigger').click(function(ev){
+  var top = ($( window) . height() - $( this) . outerHeight()) / 2;
+  var left = ($( window) . width() - $( this) . outerWidth()) / 2;
+  var note = new $.mn.Note({ x: left, y: top });
+  return false;
+});
+
+$.mn.spaceDialog.dialog('option', 'virgin', true);
+$('#space-dialog-trigger').click(function(ev){
+  var target = $(this);
+  var space  = $.mn.spaceDialog;
+  if (space.dialog('isOpen')) { return false; }
+  space.dialog('open');
+  /* http://stackoverflow.com/questions/744554/jquery-ui-dialog-positioning */
+  if (space.dialog('option', 'virgin')) {
+    space.dialog('widget').position({
+      my: 'left bottom',
+      at: 'right top',
+      of: target
+    });
+    space.dialog('option', 'virgin', false);
+  }
+  return false;
+});
+
+/*
+ * Grid
+ */
 $('a.toggle-grid').click(function(ev){
   $('body').toggleClass('grid');
   // $.mn.toggleGrid();
@@ -59,9 +121,22 @@ $('a.toggle-grid').click(function(ev){
   //   - .draggable('option', 'grid', [8,8]
   //   - .resizable('option', 'grid', [8,8]
   //   - on first click only, snap to grid
+  return false;
 });
 
-// demo
+
+
+
+
+
+
+
+
+
+
+/*
+ * Demo
+ */
 document.onselectstart = function () { return false; };             
 jsPlumb.DefaultDragOptions = { cursor: "pointer", zIndex:2000 };
 jsPlumb.setMouseEventsEnabled(true);

@@ -2,7 +2,7 @@
 use common::sense;
 use Plack::Builder;
 
-use MetaNotes 'On::PSGI';
+use MetaNotes 'On::PSGI', 'With::AccessTrace';
 MetaNotes->init;
 
 my $root_url = $MetaNotes::CONFIG{root_url} // 'http://localhost:5000';

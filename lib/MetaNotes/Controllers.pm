@@ -73,6 +73,19 @@ our @C = (
     }
   ),
 
+  C(
+    SpaceDialog => [ '/@space-dialog' ],
+    get => sub {
+      my ($self) = @_;
+      $self->render('_space_dialog');
+    },
+    post => sub {
+      my ($self) = @_;
+      my $title = 'TODO';
+      $self->redirect(R('Space', $title));
+    }
+  ),
+
   ## API v5
   C(
     APIObject => [ '/api/v5/object/(\w+)/(.*)' ],
@@ -157,14 +170,25 @@ our @C = (
       my $types  = "${type}s";
       $id = "/$id" if ($type eq 'space');
       my $_id = sprintf('%s-%s', ucfirst($type), $id);
+      my $doorman = $v->{doorman};
       $params{_id} = $_id unless ($id eq "-"); # ($id eq "-") means autogenerate an id
+      $params{owner} = $doorman->twitter_screen_name;
+      $params{created_at} = time; # TODO - let couchdb do this
       # TODO : authorization
       # - load parent
       # - stop if no parent found
       # - check permissions against the parent
-      my $object = $db->$types->create(\%params);
-      $self->status = 200;
-      return JSON::encode_json($object->to_hash);
+      my $object = try {
+        $db->$types->create(\%params);
+        # TODO - better error message
+      };
+      if ($object) {
+        $self->status = 200;
+        return JSON::encode_json($object->to_hash);
+      } else {
+        $self->status = 500;
+        return '{"success":false}';
+      }
     },
 
     # delete
